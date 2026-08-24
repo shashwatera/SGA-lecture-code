@@ -1,0 +1,11 @@
+name,age,city,subject,marks,passed
+Aarav,16,Delhi,Math,78,True
+Diya,17,Mumbai,Science,85,True
+Kabir,16,Pune,Math,45,False
+Anaya,15,Bangalore,English,92,True
+Vihaan,17,Delhi,Science,38,False
+Ishita,16,Chennai,Math,67,True
+Reyansh,15,Pune,English,55,True
+Saanvi,17,Mumbai,Science,29,False
+Arjun,16,Delhi,Math,71,True
+Myra,15,Bangalore,English,88,True
