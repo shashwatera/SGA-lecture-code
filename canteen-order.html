@@ -1,0 +1,852 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tiffin Junction — Order Online</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    box-sizing:border-box;
+    padding-top:env(safe-area-inset-top,0px);
+    padding-bottom:env(safe-area-inset-bottom,0px);
+
+    --paper:#FBF6EA;
+    --paper-2:#F1E9D6;
+    --ink:#16302B;
+    --ink-soft:#4B675F;
+    --ink-2:#1E3F38;
+    --mustard:#E8A93A;
+    --mustard-deep:#C98A20;
+    --chili:#B65036;
+    --header-bg:#16302B;
+    --header-text:#FBF6EA;
+    --border:rgba(22,48,43,0.14);
+    --shadow:0 10px 24px rgba(22,48,43,0.10);
+    --radius-lg:22px;
+    --radius-md:14px;
+    --radius-sm:9px;
+    --sticky-h:0px;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper:#0E211D;
+      --paper-2:#16302B;
+      --ink:#F3ECDA;
+      --ink-soft:#B9C8C2;
+      --ink-2:#1E3F38;
+      --mustard:#EAB24C;
+      --mustard-deep:#F4C876;
+      --header-bg:#0B1917;
+      --header-text:#F3ECDA;
+      --border:rgba(243,236,218,0.14);
+      --shadow:0 10px 26px rgba(0,0,0,0.35);
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#0E211D;
+    --paper-2:#16302B;
+    --ink:#F3ECDA;
+    --ink-soft:#B9C8C2;
+    --ink-2:#1E3F38;
+    --mustard:#EAB24C;
+    --mustard-deep:#F4C876;
+    --header-bg:#0B1917;
+    --header-text:#F3ECDA;
+    --border:rgba(243,236,218,0.14);
+    --shadow:0 10px 26px rgba(0,0,0,0.35);
+  }
+
+  html{scroll-padding-top:env(safe-area-inset-top,0px);}
+  *,*::before,*::after{box-sizing:border-box;}
+  body{
+    margin:0;
+    min-height:100%;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',system-ui,-apple-system,"Segoe UI",sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{
+    font-family:'Bricolage Grotesque',system-ui,sans-serif;
+    margin:0;
+    letter-spacing:-0.01em;
+  }
+  a{color:inherit;}
+  button{font-family:inherit;}
+  img,svg{display:block;}
+
+  :focus-visible{outline:2px solid var(--mustard-deep);outline-offset:3px;border-radius:6px;}
+
+  /* ---------- Header ---------- */
+  .site-header{
+    background:var(--header-bg);
+    color:var(--header-text);
+    padding:env(safe-area-inset-top,0px) 0 0 0;
+  }
+  .site-header-inner{
+    max-width:1120px;
+    margin:0 auto;
+    padding:34px 24px 30px;
+    display:flex;
+    align-items:center;
+    gap:16px;
+    flex-wrap:wrap;
+  }
+  .brand{display:flex;align-items:center;gap:14px;}
+  .brand-mark{width:46px;height:46px;flex:none;color:var(--mustard);}
+  .brand-text h1{font-size:clamp(1.5rem,3.4vw,2.05rem);font-weight:700;color:var(--header-text);}
+  .brand-text p{margin:4px 0 0;font-size:0.98rem;color:var(--mustard);font-weight:500;}
+  .header-note{
+    margin-left:auto;
+    max-width:320px;
+    font-size:0.92rem;
+    line-height:1.5;
+    color:rgba(251,246,234,0.72);
+  }
+  @media (max-width:640px){
+    .header-note{display:none;}
+  }
+
+  /* ---------- Layout ---------- */
+  main{max-width:1120px;margin:0 auto;padding:36px 24px calc(48px + var(--sticky-h));}
+  .layout{
+    display:grid;
+    grid-template-columns:1.6fr 1fr;
+    gap:34px;
+    align-items:start;
+  }
+  @media (max-width:900px){
+    .layout{grid-template-columns:1fr;}
+  }
+
+  .menu h2{font-size:1.4rem;font-weight:700;margin-bottom:4px;}
+  .menu > p.lede{color:var(--ink-soft);margin:0 0 20px;font-size:0.98rem;}
+
+  .menu-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+  }
+  @media (max-width:560px){
+    .menu-grid{grid-template-columns:1fr;}
+  }
+
+  .menu-card{
+    background:var(--paper-2);
+    border:1px solid var(--border);
+    border-radius:var(--radius-lg);
+    padding:20px;
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  }
+  .menu-card:hover{
+    transform:translateY(-3px);
+    box-shadow:var(--shadow);
+    border-color:rgba(232,169,58,0.5);
+  }
+  @media (prefers-reduced-motion:reduce){
+    .menu-card:hover{transform:none;}
+  }
+  .menu-card-top{display:flex;align-items:flex-start;gap:12px;}
+  .menu-card-icon{
+    width:52px;height:52px;flex:none;
+    border-radius:14px;
+    background:var(--paper);
+    display:flex;align-items:center;justify-content:center;
+    font-size:1.6rem;
+    border:1px solid var(--border);
+  }
+  .menu-card-title{flex:1;min-width:0;}
+  .menu-card-title h3{font-size:1.12rem;font-weight:700;}
+  .menu-card-title p{margin:3px 0 0;font-size:0.88rem;color:var(--ink-soft);line-height:1.4;}
+  .menu-card-price{font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:1.05rem;white-space:nowrap;}
+
+  .menu-card-controls{
+    margin-top:auto;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .qty-stepper{
+    display:flex;align-items:center;
+    border:1px solid var(--border);
+    border-radius:999px;
+    background:var(--paper);
+    overflow:hidden;
+  }
+  .qty-stepper button{
+    width:32px;height:32px;
+    border:none;background:transparent;color:var(--ink);
+    font-size:1.05rem;cursor:pointer;line-height:1;
+    transition:background-color .15s ease;
+  }
+  .qty-stepper button:hover{background:rgba(232,169,58,0.22);}
+  .qty-stepper span{
+    min-width:24px;text-align:center;font-weight:600;font-size:0.95rem;
+  }
+  .add-btn{
+    flex:1;
+    border:none;
+    border-radius:999px;
+    padding:9px 14px;
+    background:var(--mustard);
+    color:var(--ink-2);
+    font-weight:700;
+    font-size:0.92rem;
+    cursor:pointer;
+    transition:background-color .15s ease, transform .12s ease;
+  }
+  .add-btn:hover{background:var(--mustard-deep);}
+  .add-btn:active{transform:scale(0.97);}
+  .add-btn.added{background:#6E8F55;color:#fff;}
+
+  /* ---------- Order panel ---------- */
+  .order-panel{
+    background:var(--paper-2);
+    border:1px solid var(--border);
+    border-radius:var(--radius-lg);
+    padding:22px;
+    position:sticky;
+    top:20px;
+  }
+  @media (max-width:900px){
+    .order-panel{position:static;}
+  }
+  .order-panel h2{font-size:1.18rem;font-weight:700;margin-bottom:2px;}
+  .order-panel .sub{font-size:0.85rem;color:var(--ink-soft);margin:0 0 16px;}
+
+  .order-empty{
+    padding:26px 8px;
+    text-align:center;
+    color:var(--ink-soft);
+    font-size:0.94rem;
+  }
+
+  .order-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;}
+  .order-row{
+    display:flex;align-items:center;gap:10px;
+    padding:11px 0;
+    border-bottom:1px dashed var(--border);
+    transition:background-color .5s ease;
+    border-radius:8px;
+  }
+  .order-row.flash{background-color:rgba(232,169,58,0.28);}
+  .order-row-icon{font-size:1.2rem;width:26px;text-align:center;flex:none;}
+  .order-row-name{flex:1;min-width:0;}
+  .order-row-name strong{display:block;font-size:0.94rem;}
+  .order-row-name span{font-size:0.78rem;color:var(--ink-soft);}
+  .order-row-qty{display:flex;align-items:center;gap:6px;flex:none;}
+  .order-row-qty button{
+    width:24px;height:24px;border-radius:50%;
+    border:1px solid var(--border);background:var(--paper);
+    cursor:pointer;font-size:0.85rem;line-height:1;color:var(--ink);
+    transition:background-color .15s ease;
+  }
+  .order-row-qty button:hover{background:rgba(232,169,58,0.22);}
+  .order-row-qty span{min-width:16px;text-align:center;font-size:0.88rem;font-weight:600;}
+  .order-row-total{width:56px;text-align:right;font-size:0.9rem;font-weight:700;flex:none;}
+  .order-row-remove{
+    border:none;background:none;color:var(--chili);cursor:pointer;
+    font-size:0.85rem;flex:none;padding:2px;
+  }
+
+  .order-total-line{
+    display:flex;justify-content:space-between;align-items:baseline;
+    margin-top:16px;padding-top:14px;border-top:1px solid var(--border);
+  }
+  .order-total-line span:first-child{font-size:0.95rem;color:var(--ink-soft);}
+  .order-total-line span:last-child{font-family:'Bricolage Grotesque',sans-serif;font-size:1.4rem;font-weight:700;}
+
+  .place-btn{
+    margin-top:16px;width:100%;
+    border:none;border-radius:999px;
+    padding:13px 16px;
+    background:var(--ink-2);
+    color:var(--paper);
+    font-weight:700;font-size:1rem;
+    cursor:pointer;
+    transition:background-color .15s ease, transform .12s ease, opacity .15s ease;
+  }
+  .place-btn:hover:not(:disabled){background:var(--ink);}
+  .place-btn:disabled{opacity:0.5;cursor:not-allowed;}
+  .place-btn.shake{animation:shake .4s ease;}
+  @keyframes shake{
+    0%,100%{transform:translateX(0);}
+    25%{transform:translateX(-5px);}
+    75%{transform:translateX(5px);}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .place-btn.shake{animation:none;}
+  }
+
+  .confirmation{text-align:center;padding:14px 4px 4px;}
+  .confirmation .check{
+    width:44px;height:44px;border-radius:50%;
+    background:#6E8F55;color:#fff;
+    display:flex;align-items:center;justify-content:center;
+    margin:0 auto 10px;font-size:1.3rem;
+  }
+  .confirmation p{margin:2px 0;font-size:0.95rem;color:var(--ink-soft);}
+  .confirmation strong{font-family:'Bricolage Grotesque',sans-serif;font-size:1.1rem;color:var(--ink);}
+  .new-order-btn{
+    margin-top:14px;border:1px solid var(--border);background:none;
+    color:var(--ink);border-radius:999px;padding:9px 18px;cursor:pointer;font-size:0.9rem;font-weight:600;
+  }
+  .new-order-btn:hover{background:rgba(232,169,58,0.18);}
+
+  /* ---------- Footer ---------- */
+  .site-footer{
+    text-align:center;padding:26px 24px calc(26px + var(--sticky-h));
+    color:var(--ink-soft);font-size:0.84rem;
+  }
+
+  /* ---------- Sticky mobile order bar ---------- */
+  .sticky-bar{
+    display:none;
+  }
+  @media (max-width:900px){
+    :root{--sticky-h:60px;}
+    .sticky-bar{
+      display:flex;
+      position:fixed;left:0;right:0;bottom:0;
+      padding:12px 18px calc(12px + env(safe-area-inset-bottom,0px));
+      background:var(--ink-2);
+      color:var(--paper);
+      align-items:center;justify-content:space-between;
+      border:none;width:100%;
+      font-family:'Inter',sans-serif;
+      cursor:pointer;
+      z-index:40;
+    }
+    .sticky-bar strong{font-family:'Bricolage Grotesque',sans-serif;font-size:1.05rem;}
+    .sticky-bar span{font-size:0.85rem;opacity:0.85;}
+  }
+
+  /* ---------- Chat widget ---------- */
+  .chat-widget{
+    position:fixed;
+    right:20px;
+    bottom:calc(20px + var(--sticky-h) + env(safe-area-inset-bottom,0px));
+    z-index:50;
+    display:flex;flex-direction:column;align-items:flex-end;gap:12px;
+  }
+  .chat-toggle{
+    width:58px;height:58px;border-radius:50%;
+    background:var(--mustard);
+    border:none;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 8px 20px rgba(22,48,43,0.28);
+    color:var(--ink-2);
+    transition:transform .15s ease, background-color .15s ease;
+  }
+  .chat-toggle:hover{transform:translateY(-2px);background:var(--mustard-deep);}
+  .chat-toggle svg{width:26px;height:26px;}
+
+  .chat-panel{
+    width:min(360px, calc(100vw - 40px));
+    max-height:min(520px, 70vh);
+    background:var(--paper);
+    border:1px solid var(--border);
+    border-radius:var(--radius-lg);
+    box-shadow:0 20px 44px rgba(22,48,43,0.28);
+    display:flex;flex-direction:column;
+    overflow:hidden;
+  }
+  .chat-panel[hidden]{display:none;}
+  .chat-panel-head{
+    background:var(--header-bg);color:var(--header-text);
+    padding:14px 16px;
+    display:flex;align-items:center;justify-content:space-between;
+    flex:none;
+  }
+  .chat-panel-head h3{font-size:1rem;font-weight:700;}
+  .chat-panel-head p{margin:2px 0 0;font-size:0.78rem;color:var(--mustard);}
+  .chat-close{
+    background:none;border:none;color:var(--header-text);
+    font-size:1.2rem;cursor:pointer;line-height:1;padding:4px;
+  }
+  .chat-thread{
+    flex:1;overflow-y:auto;
+    padding:14px 14px 6px;
+    display:flex;flex-direction:column;gap:10px;
+  }
+  .msg{
+    max-width:85%;
+    padding:9px 12px;
+    border-radius:14px;
+    font-size:0.9rem;
+    line-height:1.42;
+  }
+  .msg-bot{
+    align-self:flex-start;
+    background:var(--paper-2);
+    border:1px solid var(--border);
+    border-bottom-left-radius:4px;
+  }
+  .msg-user{
+    align-self:flex-end;
+    background:var(--ink-2);
+    color:var(--paper);
+    border-bottom-right-radius:4px;
+  }
+  .msg-bot.enter, .msg-user.enter{
+    opacity:0;transform:translateY(6px);
+  }
+  .msg-bot, .msg-user{
+    transition:opacity .28s ease, transform .28s ease;
+  }
+  @media (prefers-reduced-motion:reduce){
+    .msg-bot, .msg-user{transition:none;}
+  }
+  .msg-add-btn{
+    display:inline-block;margin-top:8px;
+    border:none;border-radius:999px;
+    background:var(--mustard);color:var(--ink-2);
+    font-weight:700;font-size:0.82rem;
+    padding:6px 12px;cursor:pointer;
+  }
+  .msg-add-btn:hover{background:var(--mustard-deep);}
+  .msg-add-btn.added{background:#6E8F55;color:#fff;}
+
+  .chat-input-row{
+    flex:none;display:flex;gap:8px;
+    padding:12px;border-top:1px solid var(--border);
+  }
+  .chat-input-row input{
+    flex:1;min-width:0;
+    border:1px solid var(--border);
+    border-radius:999px;
+    padding:10px 14px;
+    font-size:0.9rem;
+    background:var(--paper-2);
+    color:var(--ink);
+  }
+  .chat-input-row input:disabled{opacity:0.6;}
+  .chat-input-row button{
+    border:none;border-radius:999px;
+    width:40px;height:40px;flex:none;
+    background:var(--ink-2);color:var(--paper);
+    cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .chat-input-row button:hover:not(:disabled){background:var(--ink);}
+  .chat-input-row button:disabled{opacity:0.5;cursor:not-allowed;}
+  .chat-input-row button svg{width:17px;height:17px;}
+
+  .chat-restart-row{padding:0 12px 12px;flex:none;}
+  .chat-restart-row button{
+    width:100%;border:1px solid var(--border);background:none;
+    border-radius:999px;padding:9px;font-size:0.86rem;font-weight:600;
+    color:var(--ink);cursor:pointer;
+  }
+  .chat-restart-row button:hover{background:rgba(232,169,58,0.18);}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="site-header-inner">
+    <div class="brand">
+      <svg class="brand-mark" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <ellipse cx="24" cy="34" rx="17" ry="6" stroke="currentColor" stroke-width="2.3"/>
+        <path d="M7 34C7 30.5 14.6 28 24 28C33.4 28 41 30.5 41 34" stroke="currentColor" stroke-width="2.3"/>
+        <path d="M17 20c-1.2-2 0-3.2-1-5.2M24 19c-1.2-2.6 0.4-3.6-0.8-6.2M31 20c-1.2-2 0-3.2-1-5.2" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+      </svg>
+      <div class="brand-text">
+        <h1>Tiffin Junction</h1>
+        <p>Fresh off the tawa, straight to your bench</p>
+      </div>
+    </div>
+    <p class="header-note">Order ahead, skip the queue, pick it up between classes.</p>
+  </div>
+</header>
+
+<main>
+  <div class="layout">
+    <section class="menu" aria-label="Menu">
+      <h2>Today&rsquo;s menu</h2>
+      <p class="lede">Set your quantity, then add it to your order.</p>
+      <div class="menu-grid" id="menuGrid"></div>
+    </section>
+
+    <aside class="order-panel" aria-label="Your order">
+      <h2>Your order</h2>
+      <p class="sub">Everything you&rsquo;ve added so far</p>
+      <div id="orderPanelBody"></div>
+    </aside>
+  </div>
+</main>
+
+<footer class="site-footer">
+  Tiffin Junction &middot; Campus canteen, since the first bell rang.
+</footer>
+
+<button class="sticky-bar" id="stickyBar" type="button">
+  <span id="stickyBarLabel">Your order is empty</span>
+  <strong id="stickyBarTotal"></strong>
+</button>
+
+<div class="chat-widget">
+  <div class="chat-panel" id="chatPanel" hidden>
+    <div class="chat-panel-head">
+      <div>
+        <h3>Ask the counter</h3>
+        <p>Menu, prices, or just say hi</p>
+      </div>
+      <button class="chat-close" id="chatClose" aria-label="Close chat">&times;</button>
+    </div>
+    <div class="chat-thread" id="chatThread"></div>
+    <div class="chat-restart-row" id="chatRestartRow" hidden>
+      <button id="chatRestart" type="button">Start a new chat</button>
+    </div>
+    <div class="chat-input-row">
+      <input id="chatInput" type="text" placeholder="Type a message&hellip;" autocomplete="off" aria-label="Message the canteen counter">
+      <button id="chatSend" type="button" aria-label="Send message">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 20L20.5 12L4 4L4 10L15 12L4 14L4 20Z" fill="currentColor"/></svg>
+      </button>
+    </div>
+  </div>
+  <button class="chat-toggle" id="chatToggle" aria-label="Chat with the canteen counter" aria-expanded="false">
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M4 5.5C4 4.67 4.67 4 5.5 4h13c.83 0 1.5.67 1.5 1.5v10c0 .83-.67 1.5-1.5 1.5H9l-4 4v-4H5.5C4.67 17 4 16.33 4 15.5v-10Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+      <circle cx="9" cy="10" r="1.1" fill="currentColor"/><circle cx="13" cy="10" r="1.1" fill="currentColor"/><circle cx="17" cy="10" r="1.1" fill="currentColor"/>
+    </svg>
+  </button>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  var MENU = [
+    {id:"pizza",   name:"Pizza",   emoji:"🍕", price:3,   desc:"Wood-fired, cut in six, gone in four."},
+    {id:"coffee",  name:"Coffee",  emoji:"☕", price:1,   desc:"Filter-strength, no apologies."},
+    {id:"tea",     name:"Tea",     emoji:"🍵", price:0.5, desc:"Spiced, sweet, non-negotiable."},
+    {id:"noodles", name:"Noodles", emoji:"🍜", price:5,   desc:"Wok-tossed, extra chilli on request."}
+  ];
+
+  var cart = {};       // id -> qty
+  var pending = {};    // id -> pending stepper qty
+  MENU.forEach(function(item){ pending[item.id] = 1; });
+
+  function formatPrice(n){ return "$" + n.toFixed(2); }
+  function menuItem(id){ return MENU.find(function(m){ return m.id === id; }); }
+  function cartTotal(){
+    return Object.keys(cart).reduce(function(sum, id){
+      return sum + cart[id] * menuItem(id).price;
+    }, 0);
+  }
+  function cartCount(){
+    return Object.keys(cart).reduce(function(sum, id){ return sum + cart[id]; }, 0);
+  }
+
+  /* ---------------- Menu grid ---------------- */
+  var menuGrid = document.getElementById("menuGrid");
+
+  MENU.forEach(function(item){
+    var card = document.createElement("div");
+    card.className = "menu-card";
+    card.innerHTML =
+      '<div class="menu-card-top">' +
+        '<div class="menu-card-icon" aria-hidden="true">' + item.emoji + '</div>' +
+        '<div class="menu-card-title">' +
+          '<h3>' + item.name + '</h3>' +
+          '<p>' + item.desc + '</p>' +
+        '</div>' +
+        '<div class="menu-card-price">' + formatPrice(item.price) + '</div>' +
+      '</div>' +
+      '<div class="menu-card-controls">' +
+        '<div class="qty-stepper">' +
+          '<button type="button" data-action="dec" aria-label="Decrease quantity">&minus;</button>' +
+          '<span data-role="qty">1</span>' +
+          '<button type="button" data-action="inc" aria-label="Increase quantity">+</button>' +
+        '</div>' +
+        '<button type="button" class="add-btn" data-role="add">Add to order</button>' +
+      '</div>';
+
+    var qtyEl = card.querySelector('[data-role="qty"]');
+    var addBtn = card.querySelector('[data-role="add"]');
+
+    card.querySelector('[data-action="dec"]').addEventListener("click", function(){
+      pending[item.id] = Math.max(1, pending[item.id] - 1);
+      qtyEl.textContent = pending[item.id];
+    });
+    card.querySelector('[data-action="inc"]').addEventListener("click", function(){
+      pending[item.id] = Math.min(20, pending[item.id] + 1);
+      qtyEl.textContent = pending[item.id];
+    });
+    addBtn.addEventListener("click", function(){
+      addToCart(item.id, pending[item.id]);
+      pending[item.id] = 1;
+      qtyEl.textContent = 1;
+      var original = addBtn.textContent;
+      addBtn.textContent = "Added ✓";
+      addBtn.classList.add("added");
+      setTimeout(function(){
+        addBtn.textContent = original;
+        addBtn.classList.remove("added");
+      }, 900);
+    });
+
+    menuGrid.appendChild(card);
+  });
+
+  /* ---------------- Order panel ---------------- */
+  var orderPanelBody = document.getElementById("orderPanelBody");
+  var stickyBar = document.getElementById("stickyBar");
+  var stickyBarLabel = document.getElementById("stickyBarLabel");
+  var stickyBarTotal = document.getElementById("stickyBarTotal");
+  var orderConfirmed = false;
+  var lastAddedId = null;
+
+  function addToCart(id, qty){
+    cart[id] = (cart[id] || 0) + qty;
+    orderConfirmed = false;
+    lastAddedId = id;
+    renderOrder();
+  }
+  function setQty(id, qty){
+    if (qty <= 0){ delete cart[id]; }
+    else { cart[id] = Math.min(20, qty); }
+    renderOrder();
+  }
+  function removeFromCart(id){
+    delete cart[id];
+    renderOrder();
+  }
+
+  function renderOrder(){
+    var ids = Object.keys(cart);
+    var total = cartTotal();
+
+    stickyBarTotal.textContent = ids.length ? formatPrice(total) : "";
+    stickyBarLabel.textContent = ids.length
+      ? cartCount() + (cartCount() === 1 ? " item" : " items") + " in your order"
+      : "Your order is empty";
+
+    if (orderConfirmed){
+      var token = "#" + (100 + Math.floor(Math.random() * 900));
+      orderPanelBody.innerHTML =
+        '<div class="confirmation">' +
+          '<div class="check">&#10003;</div>' +
+          '<strong>Order placed!</strong>' +
+          '<p>Your token is ' + token + '.</p>' +
+          '<p>Grab it from the counter when it&rsquo;s called.</p>' +
+          '<button class="new-order-btn" id="newOrderBtn" type="button">Start a new order</button>' +
+        '</div>';
+      document.getElementById("newOrderBtn").addEventListener("click", function(){
+        cart = {};
+        orderConfirmed = false;
+        renderOrder();
+      });
+      return;
+    }
+
+    if (!ids.length){
+      orderPanelBody.innerHTML =
+        '<div class="order-empty">Nothing here yet &mdash; add something tasty from the menu.</div>' +
+        '<button class="place-btn" disabled>Place order</button>';
+      return;
+    }
+
+    var rowsHtml = ids.map(function(id){
+      var item = menuItem(id);
+      var qty = cart[id];
+      var flashClass = (id === lastAddedId) ? " flash" : "";
+      return (
+        '<li class="order-row' + flashClass + '" data-id="' + id + '">' +
+          '<span class="order-row-icon" aria-hidden="true">' + item.emoji + '</span>' +
+          '<span class="order-row-name"><strong>' + item.name + '</strong><span>' + formatPrice(item.price) + ' each</span></span>' +
+          '<span class="order-row-qty">' +
+            '<button type="button" data-action="dec" aria-label="Decrease ' + item.name + ' quantity">&minus;</button>' +
+            '<span>' + qty + '</span>' +
+            '<button type="button" data-action="inc" aria-label="Increase ' + item.name + ' quantity">+</button>' +
+          '</span>' +
+          '<span class="order-row-total">' + formatPrice(qty * item.price) + '</span>' +
+          '<button type="button" class="order-row-remove" data-action="remove" aria-label="Remove ' + item.name + '">&times;</button>' +
+        '</li>'
+      );
+    }).join("");
+
+    orderPanelBody.innerHTML =
+      '<ul class="order-list">' + rowsHtml + '</ul>' +
+      '<div class="order-total-line"><span>Total</span><span>' + formatPrice(total) + '</span></div>' +
+      '<button class="place-btn" id="placeBtn" type="button">Place order</button>';
+
+    orderPanelBody.querySelectorAll(".order-row").forEach(function(row){
+      var id = row.dataset.id;
+      row.querySelector('[data-action="dec"]').addEventListener("click", function(){ setQty(id, cart[id] - 1); });
+      row.querySelector('[data-action="inc"]').addEventListener("click", function(){ setQty(id, cart[id] + 1); });
+      row.querySelector('[data-action="remove"]').addEventListener("click", function(){ removeFromCart(id); });
+    });
+
+    document.getElementById("placeBtn").addEventListener("click", function(){
+      orderConfirmed = true;
+      renderOrder();
+    });
+
+    if (lastAddedId){
+      var flashRow = orderPanelBody.querySelector('.order-row[data-id="' + lastAddedId + '"]');
+      if (flashRow){
+        setTimeout(function(){ flashRow.classList.remove("flash"); }, 650);
+      }
+      lastAddedId = null;
+    }
+  }
+
+  stickyBar.addEventListener("click", function(){
+    document.querySelector(".order-panel").scrollIntoView({behavior: matchMediaReduce() ? "auto" : "smooth", block:"start"});
+  });
+  function matchMediaReduce(){
+    return window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  }
+
+  renderOrder();
+
+  /* ---------------- Chatbot ---------------- */
+  var chatToggle = document.getElementById("chatToggle");
+  var chatPanel = document.getElementById("chatPanel");
+  var chatClose = document.getElementById("chatClose");
+  var chatThread = document.getElementById("chatThread");
+  var chatInput = document.getElementById("chatInput");
+  var chatSend = document.getElementById("chatSend");
+  var chatRestartRow = document.getElementById("chatRestartRow");
+  var chatRestart = document.getElementById("chatRestart");
+  var chatLocked = false;
+
+  function openChat(){
+    chatPanel.hidden = false;
+    chatToggle.setAttribute("aria-expanded", "true");
+    if (!chatThread.childElementCount){
+      appendMessage("bot", "Hey! I'm at the counter — ask about today's menu, or just say hi.");
+    }
+    chatInput.focus();
+  }
+  function closeChat(){
+    chatPanel.hidden = true;
+    chatToggle.setAttribute("aria-expanded", "false");
+  }
+  chatToggle.addEventListener("click", function(){
+    chatPanel.hidden ? openChat() : closeChat();
+  });
+  chatClose.addEventListener("click", closeChat);
+
+  function cap(s){ return s.charAt(0).toUpperCase() + s.slice(1); }
+  function cleanCapture(s){ return s.replace(/[.!?,]+$/,"").trim(); }
+
+  var PATTERNS = [
+    { re:/my name is (.+)/i,
+      reply:function(m){ return "Hello " + cap(cleanCapture(m[1])) + "! How can I help you today?"; } },
+    { re:/\b(hi|hello|hey)\b/i,
+      reply:function(){ return "Hello! How can I help you today?"; } },
+    { re:/i am (.+)/i,
+      reply:function(m){ return "Why do you think you are " + cleanCapture(m[1]) + "?"; } },
+    { re:/i need (.+)/i,
+      reply:function(m){ return "Why do you need " + cleanCapture(m[1]) + "?"; } },
+    { re:/i feel (.+)/i,
+      reply:function(m){ return "Why do you feel " + cleanCapture(m[1]) + "?"; } },
+    { re:/menu/i,
+      reply:function(){ return "We are serving pizza, coffee, tea and noodles today."; } },
+    { re:/pizza/i, item:"pizza",
+      reply:function(){ return "The price of pizza is $3"; } },
+    { re:/coffee/i, item:"coffee",
+      reply:function(){ return "The price of coffee is $1"; } },
+    { re:/tea/i, item:"tea",
+      reply:function(){ return "The price of tea is $0.5"; } },
+    { re:/noodles/i, item:"noodles",
+      reply:function(){ return "The price of noodles is $5"; } },
+    { re:/your name\?\s*$/i,
+      reply:function(){ return "I am your friendly chatbot!"; } },
+    { re:/\b(bye|exit)\b/i, end:true,
+      reply:function(){ return "Goodbye! Have a great day!"; } }
+  ];
+  var FALLBACK = "I'm sorry, I didn't understand that. Could you rephrase?";
+
+  function matchReply(text){
+    for (var i = 0; i < PATTERNS.length; i++){
+      var p = PATTERNS[i];
+      var m = text.match(p.re);
+      if (m){
+        return { text:p.reply(m), item:p.item || null, end: !!p.end };
+      }
+    }
+    return { text:FALLBACK, item:null, end:false };
+  }
+
+  function appendMessage(who, text, opts){
+    opts = opts || {};
+    var el = document.createElement("div");
+    el.className = "msg msg-" + who + " enter";
+    el.textContent = text;
+
+    if (opts.item){
+      var btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "msg-add-btn";
+      var item = menuItem(opts.item);
+      btn.textContent = "Add " + item.name + " to order";
+      btn.addEventListener("click", function(){
+        addToCart(opts.item, 1);
+        btn.textContent = "Added ✓";
+        btn.classList.add("added");
+        setTimeout(function(){
+          btn.textContent = "Add " + item.name + " to order";
+          btn.classList.remove("added");
+        }, 900);
+      });
+      el.appendChild(document.createElement("br"));
+      el.appendChild(btn);
+    }
+
+    chatThread.appendChild(el);
+    requestAnimationFrame(function(){
+      requestAnimationFrame(function(){ el.classList.remove("enter"); });
+    });
+    chatThread.scrollTop = chatThread.scrollHeight;
+  }
+
+  function lockChat(){
+    chatLocked = true;
+    chatInput.disabled = true;
+    chatSend.disabled = true;
+    chatRestartRow.hidden = false;
+  }
+  function unlockChat(){
+    chatLocked = false;
+    chatInput.disabled = false;
+    chatSend.disabled = false;
+    chatRestartRow.hidden = true;
+  }
+
+  function handleSend(){
+    var text = chatInput.value.trim();
+    if (!text || chatLocked) return;
+    appendMessage("user", text);
+    chatInput.value = "";
+
+    var result = matchReply(text);
+    setTimeout(function(){
+      appendMessage("bot", result.text, { item: result.item });
+      if (result.end) lockChat();
+    }, 260);
+  }
+
+  chatSend.addEventListener("click", handleSend);
+  chatInput.addEventListener("keydown", function(e){
+    if (e.key === "Enter") handleSend();
+  });
+  chatRestart.addEventListener("click", function(){
+    chatThread.innerHTML = "";
+    unlockChat();
+    appendMessage("bot", "Hey! I'm at the counter — ask about today's menu, or just say hi.");
+  });
+
+})();
+</script>
+</body>
+</html>
